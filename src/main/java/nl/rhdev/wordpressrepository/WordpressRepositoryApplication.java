@@ -2,7 +2,6 @@ package nl.rhdev.wordpressrepository;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.rhdev.wordpressrepository.properties.StorageProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
+@Slf4j
 public class WordpressRepositoryApplication {
 
 	public static void main(String[] args) {
@@ -25,13 +26,14 @@ public class WordpressRepositoryApplication {
     @Bean
     CommandLineRunner init(StorageProperties properties) {
         return (args) -> {
-            Logger logger = LoggerFactory.getLogger(CommandLineRunner.class);
-            logger.info("Initializing storage service");
+            log.info("Initializing storage service");
 
             try {
-                Files.createDirectories(Paths.get(properties.getPath()));
+                Files.createDirectories(properties.getPath());
+                Files.createDirectories(properties.getThemePath());
+                Files.createDirectories(properties.getPluginPath());
             } catch (IOException e) {
-                logger.error("Cannot create directory", e);
+                log.error("Cannot create directory", e);
             }
         };
     }

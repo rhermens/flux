@@ -2,7 +2,6 @@ package nl.rhdev.wordpressrepository.repositories;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.rhdev.wordpressrepository.factories.ThemeFactory;
 import nl.rhdev.wordpressrepository.models.Theme;
 import nl.rhdev.wordpressrepository.properties.StorageProperties;
 
@@ -27,9 +25,9 @@ public class ThemeRepository {
 
     public Stream<Theme> stream() {
         try {
-            return Files.list(Paths.get(properties.getPath(), "themes"))
+            return Files.list(properties.getThemePath())
                 .filter(p -> p.toFile().isFile() && p.toString().endsWith(".zip"))
-                .map(ThemeFactory::fromPath)
+                .map(Theme::fromPath)
                 .filter(Optional::isPresent)
                 .map(Optional::get);
         } catch (IOException e) {

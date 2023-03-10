@@ -1,20 +1,39 @@
-package nl.rhdev.wordpressrepository.factories;
+
+package nl.rhdev.wordpressrepository.zip;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.NoSuchElementException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import nl.rhdev.wordpressrepository.marshal.HeaderMarshaller;
+public class WordPressZip {
 
-public abstract class AbstractWordPressFactory {
+    private final ZipFile zipFile;
 
-    protected static String readHeaderFile(String file, ZipFile zipFile) throws IOException, NoSuchElementException {
+    public WordPressZip(ZipFile zipFile) {
+        this.zipFile = zipFile;
+    }
+
+    public void close() throws IOException {
+        zipFile.close();
+    }
+
+    public String getRootDirectory() throws NoSuchElementException {
+        ZipEntry zipEntryRootDirectory = zipFile.stream()
+            .filter(e -> e.isDirectory())
+            .findFirst()
+            .orElseThrow();
+
+        return zipEntryRootDirectory.getName().replaceAll("/", "");
+    }
+
+    public String readFile(Path file) throws IOException, NoSuchElementException {
         ZipEntry headerEntry = zipFile.stream()
-            .filter(e -> e.getName().equals(file))
+            .filter(e -> e.getName().equals(file.toString()))
             .findFirst()
             .orElseThrow();
         InputStream zipStream = zipFile.getInputStream(headerEntry);
@@ -34,21 +53,6 @@ public abstract class AbstractWordPressFactory {
         reader.close();
         zipStream.close();
 
-
         return builder.toString();
-    }
-
-    protected static <T> void unmarshalHeader(String rawHeader, T header) {
-        HeaderMarshaller<T> marshaller = new HeaderMarshaller<>();
-        marshaller.unmarshal(rawHeader, header);
-    }
-
-    protected static String getRootDirectory(ZipFile zipFile) throws NoSuchElementException {
-        ZipEntry zipEntryRootDirectory = zipFile.stream()
-            .filter(e -> e.isDirectory())
-            .findFirst()
-            .orElseThrow();
-
-        return zipEntryRootDirectory.getName().replaceAll("/", "");
     }
 }
