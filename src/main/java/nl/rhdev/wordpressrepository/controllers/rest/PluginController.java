@@ -1,4 +1,4 @@
-package nl.rhdev.wordpressrepository.controllers;
+package nl.rhdev.wordpressrepository.controllers.rest;
 
 import java.util.NoSuchElementException;
 
