@@ -64,9 +64,6 @@ public class Plugin {
                     })
                     .filter(content -> content.toUpperCase().contains("PLUGIN NAME:"))
                     .collect(Collectors.joining(" "));
-
-                log.info("Joined content.. {}", headerContents);
-
                 PluginHeader header = new PluginHeader();
                 marshaller.unmarshal(headerContents, header);
 

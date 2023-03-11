@@ -4,6 +4,7 @@ node_modules
 frontend/generated
 pnpmfile.js
 vite.generated.ts
+*.db
 
 HELP.md
 .gradle
