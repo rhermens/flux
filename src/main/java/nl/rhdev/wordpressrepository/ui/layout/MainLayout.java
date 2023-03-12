@@ -20,9 +20,11 @@ import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import nl.rhdev.wordpressrepository.services.SecurityService;
+import nl.rhdev.wordpressrepository.ui.views.LicenseView;
 import nl.rhdev.wordpressrepository.ui.views.MainView;
 import nl.rhdev.wordpressrepository.ui.views.PluginView;
 import nl.rhdev.wordpressrepository.ui.views.ThemeView;
+import nl.rhdev.wordpressrepository.ui.views.UserView;
 
 public class MainLayout extends AppLayout {
     private static class RouteTabs extends Tabs implements BeforeEnterObserver {
@@ -57,7 +59,9 @@ public class MainLayout extends AppLayout {
         tabs.add(
             new RouterLink("Home", MainView.class),
             new RouterLink("Plugins", PluginView.class),
-            new RouterLink("Themes", ThemeView.class)
+            new RouterLink("Themes", ThemeView.class),
+            new RouterLink("Licenses", LicenseView.class),
+            new RouterLink("Users", UserView.class)
         );
         tabs.setHeightFull();
 

@@ -25,7 +25,7 @@ public class WordpressRepositoryApplication {
     @Bean
     CommandLineRunner init(StorageProperties properties) {
         return (args) -> {
-            log.info("Initializing storage service");
+            log.info("Creating storage paths: {}, {}, {}", properties.getPath(), properties.getThemePath(), properties.getPluginPath());
 
             try {
                 Files.createDirectories(properties.getPath());
