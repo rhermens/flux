@@ -10,10 +10,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.rhdev.wordpressrepository.properties.InitialUserProperties;
 import nl.rhdev.wordpressrepository.properties.StorageProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties(StorageProperties.class)
+@EnableConfigurationProperties({StorageProperties.class, InitialUserProperties.class})
 @Slf4j
 public class WordpressRepositoryApplication {
 
